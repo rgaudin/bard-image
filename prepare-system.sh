@@ -76,7 +76,7 @@ if [ "$(mount |grep /data|wc -l)" = "0" ];
 then
     echo "add fake stuff so we can start the compose"
     touch /data/NOT_MOUNTED
-    touch /data/bard-reverse-proxy.env
+    echo "ZIM_NAME=sample" > /data/bard-reverse-proxy.env
     touch /data/bard-content-filter.env
     echo "[]" > /data/urls.json
     curl -L http://mirror.download.kiwix.org/dev/bard-sample.zim -o /data/sample.zim
