@@ -56,6 +56,7 @@ groupadd balena-engine
 # Add files listed bellow
 wget -O /etc/systemd/system/balena.service $REPO_URL/balena.service
 wget -O /etc/systemd/system/balena.socket $REPO_URL/balena.socket
+wget -O /etc/systemd/system/restart-containers.service $REPO_URL/restart-containers.service
 
 systemctl daemon-reload
 systemctl start balena.socket

@@ -1,0 +1,11 @@
+[Unit]
+Description=Restart Containers
+After=network.target balena.service
+
+[Service]
+ExecStart=docker-compose -f /root/docker-compose.yml restart
+Type=oneshot
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
