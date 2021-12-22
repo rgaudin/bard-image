@@ -143,6 +143,7 @@ def main(config_fpath):
     except ValueError as exc:
         return fatal(f"Missing placeholder in {DHCPCD_CONF_FPATH}: {exc}")
 
+    subprocess.run(["/usr/bin/env", "systemctl", "daemon-reload"])
     ps = subprocess.run(["/usr/bin/env", "systemctl", "restart", "dhcpcd5"])
     if ps.returncode != 0:
         return fatal(f"Failed to restart dhcpcd5: exited with {ps.returncode}")
