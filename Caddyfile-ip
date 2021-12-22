@@ -1,0 +1,29 @@
+{
+    # global options
+    admin :2020
+    auto_https disable_redirects
+    local_certs
+    skip_install_trust
+}
+
+:80 {
+    # main, no host proxy
+
+    redir / /kiwix permanent
+
+    redir /kiwix /kiwix/ permanent
+    redir /kiwix/ /kiwix/{$ZIM_NAME}/ permanent
+    reverse_proxy /kiwix/* {$KIWIX_LINK} {
+    }
+
+    redir /content-filter /content-filter/ permanent
+    reverse_proxy /content-filter/* {$CONTENTFILTER_LINK} {
+    }
+
+    handle_errors {
+        respond "HTTP {http.error.status_code} Error"
+    }
+
+    root * /tmp
+    file_server browse
+}
