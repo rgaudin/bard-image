@@ -77,13 +77,15 @@ then
     echo "add fake stuff so we can start the compose"
     touch /data/NOT_MOUNTED
     echo "ZIM_NAME=sample" > /data/bard-reverse-proxy.env
-    touch /data/bard-content-filter.env
     echo "[]" > /data/urls.json
     curl -L http://mirror.download.kiwix.org/dev/bard-sample.zim -o /data/sample.zim
 fi
+touch /data/bard-content-filter.env
 
 
 echo "install compose"
 wget -O /root/Caddyfile-ip $REPO_URL/Caddyfile-ip
 wget -O /root/docker-compose.yml $REPO_URL/docker-compose.yml
+
+echo "run docker-compose"
 docker-compose -f /root/docker-compose.yml up -d
