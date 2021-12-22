@@ -10,7 +10,7 @@ WHITE = "\033[0m"
 RED = "\033[31m"
 GREEN = "\033[32m"
 DHCPCD_CONF_FPATH = pathlib.Path("/etc/dhcpcd.conf")
-CF_ENV_PATH = pathlib.Path("/data/bard-content-filter.env")
+CF_ENV_PATH = pathlib.Path("/root/bard-content-filter.env")
 # # dev
 # DHCPCD_CONF_FPATH = pathlib.Path("./dhcpcd.conf")
 # CF_ENV_PATH = pathlib.Path("./bard-content-filter.env")
