@@ -72,6 +72,9 @@ chmod +x /usr/local/bin/docker-compose
 echo "test docker-compose"
 docker-compose --version
 
+echo "update config-device"
+wget -O /boot/config-device.py $REPO_URL/config-device.py
+
 echo "run config-device script"
 /boot/config-device.py
 
@@ -79,11 +82,15 @@ if [ "$(mount |grep /data|wc -l)" = "0" ];
 then
     echo "add fake stuff so we can start the compose"
     touch /data/NOT_MOUNTED
+    touch /data/bard-content-filter.env
     echo "ZIM_NAME=sample" > /data/bard-reverse-proxy.env
     echo "[]" > /data/urls.json
     curl -L http://mirror.download.kiwix.org/dev/bard-sample.zim -o /data/sample.zim
 fi
-touch /data/bard-content-filter.env
+if [ ! -f /data/bard-content-filter.env ];
+then
+    echo "ADMIN_PASSWORD=default" > /data/bard-content-filter.env
+fi
 
 echo "install compose"
 wget -O /root/Caddyfile-ip $REPO_URL/Caddyfile-ip
