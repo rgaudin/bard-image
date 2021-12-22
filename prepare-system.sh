@@ -40,6 +40,7 @@ then
     mount -a
 fi
 
+sed -i 's/raspberrypi/pi-bard/g' /etc/hosts
 echo "pi-bard" > /etc/hostname
 
 echo "install default (dhcp) network conf with script placeholder"
@@ -63,6 +64,7 @@ systemctl start balena.socket
 systemctl enable balena.socket
 systemctl start balena
 systemctl enable balena
+systemctl enable restart-containers.service
 usermod -aG balena-engine pi  # (or whatever user) to enable non-root balena mgmt
 ln -sf /var/run/balena-engine.sock /var/run/docker.sock
 
