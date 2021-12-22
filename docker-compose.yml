@@ -47,7 +47,7 @@ services:
       FILTER_RESPECTS_HOST: N
       CADDY_ADMIN_URL: http://reverse-proxy:2020
       CADDY_SERVER_NAME: srv0
-    env_file: /data/bard-content-filter.env
+    env_file: /root/bard-content-filter.env
     depends_on:
       - reverse-proxy
     networks:

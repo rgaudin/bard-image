@@ -85,14 +85,13 @@ if [ "$(mount |grep /data|wc -l)" = "0" ];
 then
     echo "add fake stuff so we can start the compose"
     touch /data/NOT_MOUNTED
-    touch /data/bard-content-filter.env
     echo "ZIM_NAME=sample" > /data/bard-reverse-proxy.env
     echo "[]" > /data/urls.json
     curl -L http://mirror.download.kiwix.org/dev/bard-sample.zim -o /data/sample.zim
 fi
-if [ ! -f /data/bard-content-filter.env ];
+if [ ! -f /root/bard-content-filter.env ];
 then
-    echo "ADMIN_PASSWORD=default" > /data/bard-content-filter.env
+    echo "ADMIN_PASSWORD=default" > /root/bard-content-filter.env
 fi
 
 echo "install compose"
