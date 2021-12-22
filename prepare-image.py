@@ -119,7 +119,7 @@ def download_or_copy_zim(workdir: Path, mount_point):
 
 def read_remote(url):
     with urllib.request.urlopen(url) as response:
-        return response.read()
+        return response.read().decode("UTF-8")
 
 
 def as_power_of_2(size):
