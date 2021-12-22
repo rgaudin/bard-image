@@ -62,7 +62,7 @@ systemctl enable balena.socket
 systemctl start balena
 systemctl enable balena
 usermod -aG balena-engine pi  # (or whatever user) to enable non-root balena mgmt
-ln -s /var/run/balena-engine.sock /var/run/docker.sock
+ln -sf /var/run/balena-engine.sock /var/run/docker.sock
 
 # install docker-compose
 curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-linux-armv7" -o /usr/local/bin/docker-compose
@@ -71,6 +71,8 @@ chmod +x /usr/local/bin/docker-compose
 echo "test docker-compose"
 docker-compose --version
 
+echo "run config-device script"
+/boot/config-device.py
 
 if [ "$(mount |grep /data|wc -l)" = "0" ];
 then
@@ -81,7 +83,6 @@ then
     curl -L http://mirror.download.kiwix.org/dev/bard-sample.zim -o /data/sample.zim
 fi
 touch /data/bard-content-filter.env
-
 
 echo "install compose"
 wget -O /root/Caddyfile-ip $REPO_URL/Caddyfile-ip
