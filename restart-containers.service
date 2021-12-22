@@ -3,7 +3,8 @@ Description=Restart Containers
 After=network.target balena.service
 
 [Service]
-ExecStart=docker-compose -f /root/docker-compose.yml restart
+ExecStartPre=docker-compose -f /root/docker-compose.yml down
+ExecStart=docker-compose -f /root/docker-compose.yml up -d
 Type=oneshot
 RemainAfterExit=no
 
