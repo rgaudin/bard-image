@@ -44,6 +44,7 @@ echo "pi-bard" > /etc/hostname
 
 echo "install default (dhcp) network conf with script placeholder"
 wget -O /etc/dhcpcd.conf $REPO_URL/dhcpcd.conf
+systemctl daemon-reload
 
 echo "Add config script to rc.local"
 wget -O /etc/rc.local $REPO_URL/rc.local
