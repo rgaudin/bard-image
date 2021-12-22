@@ -11,9 +11,9 @@ RED = "\033[31m"
 GREEN = "\033[32m"
 DHCPCD_CONF_FPATH = pathlib.Path("/etc/dhcpcd.conf")
 CF_ENV_PATH = pathlib.Path("/data/bard-content-filter.env")
-
-DHCPCD_CONF_FPATH = pathlib.Path("./dhcpcd.conf")
-CF_ENV_PATH = pathlib.Path("./bard-content-filter.env")
+# # dev
+# DHCPCD_CONF_FPATH = pathlib.Path("./dhcpcd.conf")
+# CF_ENV_PATH = pathlib.Path("./bard-content-filter.env")
 
 IP_REGEXP = re.compile(r"^(\d+)\.(\d+)\.(\d+)\.(\d+)$")
 
