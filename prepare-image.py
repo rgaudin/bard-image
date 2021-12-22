@@ -44,7 +44,9 @@ REPO_URL = "https://raw.githubusercontent.com/rgaudin/bard-image/main"
 ###############
 MIN_SYSTEM_SIZE = 2 * ONE_GB
 SYSTEM_SIZE = 7 * ONE_GB
-REQUESTED_IMAGE_SIZE = 32 * ONE_GB  # will be converted to power of 2
+REQUESTED_IMAGE_SIZE = (
+    int(os.getenv("SIZE", "32")) * ONE_GB
+)  # will be converted to power of 2
 DATA_PARTITION_LABEL = "DATA"
 ZIM_URL = os.getenv(
     "ZIM_URL",
