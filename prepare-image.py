@@ -105,12 +105,17 @@ def download_or_copy_zim(workdir: Path, mount_point):
         logger.debug(f"Copying downloaded {target.name} into {local.parent}")
         shutil.copyfile(target, local)
 
+    logger.debug("Write ZIM_NAME to env file")
     with open(mount_point / "bard-reverse-proxy.env", "w") as fh:
         fh.write(
             "# name of ZIM used for redirection from /kiwix\n"
             "# doesn't require date suffix as kiwix automatically includes that\n"
             f"ZIM_NAME={zim_name}\n"
         )
+
+    logger.debug("Write empty urls.json as placeholder")
+    with open(mount_point / "urls.json", "w") as fh:
+        fh.write("[]")
 
     logger.debug("sync")
     sync()

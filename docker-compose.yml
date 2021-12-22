@@ -5,7 +5,7 @@ services:
     container_name: reverse-proxy
     image: caddy:2-alpine
     volumes:
-      - "/data/Caddyfile-ip:/etc/caddy/Caddyfile:ro"
+      - "/root/Caddyfile-ip:/etc/caddy/Caddyfile:ro"
     command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
     environment:
       KIWIX_LINK: kiwix:80

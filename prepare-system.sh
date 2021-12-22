@@ -5,6 +5,8 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+apt-get update -y && apt-get install -y exfat-fuse exfat-utils
+
 # update clock
 echo "update clock"
 timedatectl --adjust-system-clock set-ntp 1
@@ -34,11 +36,9 @@ if [ "$part3_present" = "0" ];
 then
     prefix=$(cat /etc/fstab |grep ext4 | cut -d "-" -f1)
     echo "${prefix}-03 /data           exfat   umask=0002,uid=1000,gid=33,x-systemd.device-timeout=3min  0       0" | tee -a /etc/fstab
+    # mount it but should fail in qemu as kernel probably node matching image
     mount -a
 fi
-
-# make sure we have this file as it will be bind-mounted
-echo "[]" > /data/urls.json
 
 echo "pi-bard" > /etc/hostname
 
@@ -62,7 +62,6 @@ systemctl enable balena.socket
 systemctl start balena
 systemctl enable balena
 usermod -aG balena-engine pi  # (or whatever user) to enable non-root balena mgmt
-
 ln -s /var/run/balena-engine.sock /var/run/docker.sock
 
 # install docker-compose
@@ -72,6 +71,19 @@ chmod +x /usr/local/bin/docker-compose
 echo "test docker-compose"
 docker-compose --version
 
+
+if [ "$(mount |grep /data|wc -l)" = "0" ];
+then
+    echo "add fake stuff so we can start the compose"
+    touch /data/NOT_MOUNTED
+    touch /data/bard-reverse-proxy.env
+    touch /data/bard-content-filter.env
+    echo "[]" > /data/urls.json
+    curl -L http://mirror.download.kiwix.org/dev/bard-sample.zim -o /data/sample.zim
+fi
+
+
 echo "install compose"
+wget -O /root/Caddyfile-ip $REPO_URL/Caddyfile-ip
 wget -O /root/docker-compose.yml $REPO_URL/docker-compose.yml
 docker-compose -f /root/docker-compose.yml up -d
