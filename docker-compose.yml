@@ -18,6 +18,7 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
 
   kiwix:
     container_name: kiwix
@@ -29,6 +30,7 @@ services:
       - "80"
     networks:
       - backend
+    restart: always
 
   content-filter:
     container_name: content-filter
@@ -50,6 +52,7 @@ services:
       - reverse-proxy
     networks:
       - backend
+    restart: always
 
 networks:
   frontend:
