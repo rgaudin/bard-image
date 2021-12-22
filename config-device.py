@@ -148,22 +148,6 @@ def main(config_fpath):
     if ps.returncode != 0:
         return fatal(f"Failed to restart dhcpcd5: exited with {ps.returncode}")
 
-    if (
-        subprocess.run(
-            ["/usr/bin/env", "balena-engine", "inspect", "reverse-proxy"]
-        ).returncode
-        == 0
-    ):
-        subprocess.run(
-            [
-                "/usr/bin/env",
-                "docker-compose",
-                "-f",
-                "/root/docker-compose.yml",
-                "restart",
-                "reverse-proxy",
-            ]
-        )
     log("OK", GREEN)
     return 0
 
