@@ -1,0 +1,56 @@
+version: "2.2"
+services:
+
+  reverse-proxy:
+    container_name: reverse-proxy
+    image: caddy:2-alpine
+    volumes:
+      - "/data/Caddyfile-ip:/etc/caddy/Caddyfile:ro"
+    command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+    environment:
+      KIWIX_LINK: kiwix:80
+      CONTENTFILTER_LINK: content-filter:80
+    env_file: /data/bard-reverse-proxy.env
+    ports:
+      - "80:80"
+    expose:
+      - "2020"
+    networks:
+      - frontend
+      - backend
+
+  kiwix:
+    container_name: kiwix
+    image: rgaudin/kiwix-tools:nightly
+    command: /bin/sh -c "kiwix-serve --nolibrarybutton --nodatealiases --blockexternal --urlRootLocation /kiwix/ /data/*.zim"
+    volumes:
+      - "/data:/data:ro"
+    expose:
+      - "80"
+    networks:
+      - backend
+
+  content-filter:
+    container_name: content-filter
+    image: ghcr.io/offspot/content-filter:dev
+    volumes:
+      - "/data/urls.json:/data/urls.json:rw"
+    expose:
+      - "80"
+    environment:
+      DATABASE_PATH: /data/urls.json
+      WEBROOT_PREFIX: /content-filter
+      REVERSE_PROXY: caddy_live
+      FILTER_RESPECTS_SCHEME: N
+      FILTER_RESPECTS_HOST: N
+      CADDY_ADMIN_URL: http://reverse-proxy:2020
+      CADDY_SERVER_NAME: srv0
+    env_file: /data/bard-content-filter.env
+    depends_on:
+      - reverse-proxy
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
