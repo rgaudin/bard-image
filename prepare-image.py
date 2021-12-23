@@ -101,7 +101,7 @@ def download_or_copy_zim(workdir: Path, mount_point):
         shutil.copyfile(local, target)
 
     logger.debug(f"Downloading from {ZIM_URL}")
-    subprocess.run(["curl", "-L", "-o", str(target), "-C", "-", ZIM_URL], check=True)
+    subprocess.run(["curl", "-L", "-o", str(target), ZIM_URL], check=True)
 
     if KEEP_ZIM_COPY_HERE:
         logger.debug(f"Copying downloaded {target.name} into {local.parent}")
@@ -475,9 +475,9 @@ def main(target_folder: str = ".", *args):
     release_virtual_device(device)
     logger.info("> OK")
 
-    logger.info("Shrink image to minimal size")
-    resize_image(master_fpath, get_shrunk_size(), shrink=True)
-    logger.info("> OK")
+    # logger.info("Shrink image to minimal size")
+    # resize_image(master_fpath, get_shrunk_size(), shrink=True)
+    # logger.info("> OK")
 
     logger.info("ALL DONE. Time to start image and run in-system script.")
 
